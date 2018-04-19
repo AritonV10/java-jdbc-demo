@@ -1,0 +1,152 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+html, body{
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    
+}
+
+wrapper {
+    width: 100%;
+    height: 1024px;
+    background-color: #eeeeee;
+}
+
+/* NAV */
+nav{
+    width: 100%;
+    height: 50px;
+    background-color: #ef5350;
+    position: fixed;
+    z-index: 2;
+}
+
+.nav-list{
+    display: flex;
+    font-size: 15pt;
+    list-style: none;
+}
+
+.nav-list li .nav-links {
+    height: 50px;
+    width: 100px;
+   
+    transition: 0.5s;
+}
+
+.nav-list li .nav-links:hover {
+   background-color: green;
+}
+
+.nav-links {
+    text-align: center;
+}
+
+.nav-links a{
+    position: relative;
+    top: 10px;
+    color: white;
+}
+/* END OF NAV */
+
+
+/* INDEX CONTAINER */
+
+
+.index-container{
+    width: 800px;
+    height: 900px;
+    position: relative;
+    left: 25%;
+    top: 50px;
+    align-items: center;
+}
+
+.text{
+    position: relative;
+    top: 40%;
+    margin: 0 auto;
+}
+
+table{
+    position: relative;
+    top: 100px;
+    left: 30%;
+}
+
+/* END OF INDEX CONTAINER */
+
+
+/* REGISTER BOX */
+
+
+.register-box {
+    width: 100%;
+    height: 700px;
+    position: relative;
+}
+
+.register {
+    height: 300px;
+    width: 500px;
+    position: relative;
+    left: 30%;
+    top: 270px;
+    background-color: purple;
+}
+
+.register-list {
+    list-style: none;
+    position: relative;
+    left: 80px;
+    top: 20px;
+}
+
+.register-list label, input{
+    display: block;
+}
+
+.register-list input{
+    height: 30px;
+    width: 300px;
+}
+
+.register-list label{
+    color: white;
+    font-size: 20pt;
+    font-family: sans-serif;
+}
+
+.register_button{
+    width: 150px;
+    height: 30px;
+}
+
+
+/* END OF REGISTER BOX */
+
+/* FOOTER */
+footer{
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-color: #212121;
+}
+
+.copyright_footer{
+    width: 100%;
+    height: 30px;
+    background-color: #2E2E2E;
+    position: absolute;
+    bottom: 0px;
+}
+
+/* END OF FOOTER */
+
+
+

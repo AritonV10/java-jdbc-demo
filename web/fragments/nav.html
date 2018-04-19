@@ -1,0 +1,32 @@
+<nav>
+    <ul class="nav-list">
+        <li>
+            <div class="nav-links">
+                <a href="/index.jsp">Home</a>
+            </div>
+        </li>
+        <li>
+              <c:choose>
+                    <c:when test="${user != null}">
+                        <div class="nav-links">
+                            <a class="nav-links" href="/logout">Logout</a>
+                        </div>
+                    </c:when>
+                    <c:when test="${user == null}">
+                        <div class="nav-links">
+                            <a href="/login.jsp">Login</a>
+                        </div>
+                   </c:when>
+            </c:choose>
+        </li>
+        <li>
+            <c:choose>
+                    <c:when test="${user != null}">
+                        <div class="nav-links">
+                            <a class="nav-links" href="products">Products</a>
+                        </div>
+                    </c:when>
+            </c:choose>
+        </li>
+    </ul>
+</nav>
