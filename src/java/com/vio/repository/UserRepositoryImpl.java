@@ -167,6 +167,10 @@ public class UserRepositoryImpl implements UserRepository {
            
         } catch (SQLException ex) {
             Logger.getLogger(UserRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+             statement.close();
+             result.close();
+             pool.closeConnection(connection);   
         }
         
          return null;
