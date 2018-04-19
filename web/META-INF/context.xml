@@ -4,7 +4,7 @@
 <Resource name="jdbc/tut_web" auth="Container"
     driverClassName="com.mysql.jdbc.Driver"
     url="jdbc:mysql://localhost:3306/tut_web?autoReconnect=true"
-    username="root" password="mickcoleman1337"
+    username="root" password="password"
     maxActive="100" maxIdle="30" maxWait="10000"
     logAbandoned="true" removeAbandoned="true"
     removeAbandonedTimeout="60" type="javax.sql.DataSource" />
