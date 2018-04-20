@@ -157,12 +157,14 @@ public class CRUDReflection implements CRUD<Object>{
             }
             
             // insert query
-            final String INSERT_QUERY = "INSERTO INTO " + DB_TABLE_NAME + "(" + db_table_columns_buffer+ ")" + " VALUES(" + buff+ ")";
-            
+            final String INSERT_QUERY = "INSERT INTO " + DB_TABLE_NAME + "(" + db_table_columns_buffer+ ")" + " VALUES(" + buff+ ")";
+            System.out.println(b.length);
             try{
                 statement = connection.prepareStatement(INSERT_QUERY);
                 int m = 1;
+                
                 for(Object val : b){
+                    System.out.println(val.toString());
                     if(val instanceof String){
                         statement.setString(m, val.toString());
                         m++;
@@ -190,6 +192,8 @@ public class CRUDReflection implements CRUD<Object>{
                     }
                     
                 }
+                
+                statement.executeUpdate();
                 
             } catch (SQLException ex) {
                 Logger.getLogger(CRUDReflection.class.getName()).log(Level.SEVERE, null, ex);
