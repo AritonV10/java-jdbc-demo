@@ -1,4 +1,55 @@
-  public Object save(Object object) {
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.vio.repository;
+
+import com.vio.db.config.ConnectionPool;
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author arito
+ */
+public class CRUDReflection implements CRUD<Object>{
+
+    private final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
+    
+    
+    @Override
+    public Set<Object> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <U extends String> Object findById(U objectId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object update(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * 
+     * @param object
+     * @return 
+     */
+    @Override
+    public Object save(Object object) {
         
         
         Class<?> clazz = null;
@@ -28,9 +79,12 @@
                 }
                 
             }
+            // the table name that matches the object class
             String DB_TABLE_NAME = null;
+            
+            // the DB_TABLE_NAME's columns
             String[] DB_TABLE_COLUMNS = null;
-            int db_table_counter_ = 0;
+            
             DatabaseMetaData db = null;
             PreparedStatement statement = null;
             Connection connection = null;
@@ -38,18 +92,19 @@
             String[] _table = null;
            
             try{
-                int NUMBER_OF_RECORDS = 0;
+                
                 String[] t_c = {"TABLE"};
                 int p = 0;
                 connection = CONNECTION_POOL.getConnection();
                 db = connection.getMetaData();
                 result = db.getTables(null, null, "%", t_c);
-                System.out.println(t_c.length+ " fetch size");
-                 _table = new String[10];
+                
+                _table = new String[10];
                 while(result.next()){
-                    System.out.println(_table.length + " table size");
+                     
+                     // add the table names into the array
                     _table[p] = result.getString(3);
-                    System.out.println(result.getString(3));
+                    // increment the _table index
                     p++;
                 }
                 
@@ -59,6 +114,8 @@
                 Logger.getLogger(CRUDReflection.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            
+             // matching the table with the object's class name
              for(String s : _table){
                     if(object.getClass().getSimpleName().toLowerCase().contains(s.toLowerCase())){
                         DB_TABLE_NAME = s;
@@ -68,37 +125,39 @@
             
             try{
                 final String QUERY = "SELECT * FROM " + DB_TABLE_NAME;
-                System.out.println(QUERY);
+           
                 statement = connection.prepareStatement(QUERY);
                 result = statement.executeQuery();
                 ResultSetMetaData rsmd_ = result.getMetaData();
                 int columns_size = rsmd_.getColumnCount();
-                System.out.println(columns_size);
-                DB_TABLE_COLUMNS = new String[columns_size - 2];
-                for(int k = 1; k <= columns_size; k++){
+                
+                DB_TABLE_COLUMNS = new String[columns_size - 1];
+                String prefix_table = "";
+                
+                for(int k = 2; k <= columns_size; k++){
+                   
                     DB_TABLE_COLUMNS[k-2] = rsmd_.getColumnName(k);
-                    System.out.println(DB_TABLE_COLUMNS[k-2] + " DB_TABLE_COLUMN");
+                    db_table_columns_buffer.append(prefix_table);
+                    prefix_table = ",";
                     db_table_columns_buffer.append(rsmd_.getColumnName(k));
-                    System.out.println(rsmd_.getColumnName(k) + " rsmd");
-                    db_table_columns_buffer.append(",");
+                   
+                    
                 }
-                
-                System.out.println(db_table_columns_buffer.toString() + " buffer");
-                
+                 
             } catch (SQLException ex) {
                 Logger.getLogger(CRUDReflection.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             final StringBuffer buff = new StringBuffer();
-            for(int j = 0; j < db_table_columns_buffer.length(); j++){
+            String prefix = "";
+            for(int j = 0; j < DB_TABLE_COLUMNS.length; j++){
+                buff.append(prefix);
+                prefix = ",";
                 buff.append("?");
-                buff.append(",");
             }
             
-            buff.deleteCharAt(buff.length());
-            db_table_columns_buffer.deleteCharAt(db_table_columns_buffer.length());
-            
-            final String INSERT_QUERY = "INSERTO INTO " + DB_TABLE_NAME +"("+db_table_columns_buffer+")"+" VALUES("+buff+")";
+            // insert query
+            final String INSERT_QUERY = "INSERTO INTO " + DB_TABLE_NAME + "(" + db_table_columns_buffer+ ")" + " VALUES(" + buff+ ")";
             
             try{
                 statement = connection.prepareStatement(INSERT_QUERY);
@@ -149,3 +208,10 @@
         
         return object;
     }
+
+    @Override
+    public <U extends String> void delete(U objectId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+}
